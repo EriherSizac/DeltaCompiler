@@ -1,0 +1,24 @@
+comments = r'[/][/].*|[/][*](.|\n)*?[*][/]'
+identifier = r'[a-zA-Z]\w*'
+
+program_start = statement* expression EOF
+statement = declaration / assignment / if / while / do_while
+declaration = 'var' decl_variable (',' decl_variable)* ';'
+decl_variable = identifier
+assignment = lhs_variable '=' expression ';'
+lhs_variable = identifier
+if = 'if' expression block ('else' 'if' expression block)* ('else' block)?
+block = '{' statement* '}'
+while = 'while' expression block
+do_while = 'do' block 'while' expression ';'
+
+expression_start = expression EOF
+expression = additive (('==' / '!=' / '>=' / '>' / '<=' / '<') additive)*
+additive = multiplicative (('+' / '-') multiplicative)*
+multiplicative = unary (('*' / '/' / '%') unary)*
+unary = ('+' / '-' / '!')* primary
+primary = decimal / boolean / parenthesis / rhs_variable
+decimal = r'\d+'
+boolean = 'true' / 'false'
+parenthesis = '(' expression ')'
+rhs_variable = identifier
